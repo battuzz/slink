@@ -1,13 +1,16 @@
 #include <iostream>
+#include <vector>
+
 #include "Utils.h"
 #include "SLINK.h"
+#include "SingleLinkage.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
 	vector< vector<float> > data;
 
-	read_csv(data, "test.csv");
+	readCsv(data, argv[1], ',');
 
 	vector< vector<float> > linkageMatrix; // 2n * 4 matrix
 	int n = data.size();

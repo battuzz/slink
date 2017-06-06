@@ -1,11 +1,11 @@
 #include "Utils.h"
 
-void read_csv(vector< vector<float> > &result, string filename) {
-	read_csv(result, filename, ',');
+void readCsv(vector< vector<float> > &result, string filename) {
+	readCsv(result, filename, ',');
 }
 
 // Reads the csv in filename and stores the values in result matrix
-void read_csv(vector< vector<float> > &result, string filename, char sep) {
+void readCsv(vector< vector<float> > &result, string filename, char sep) {
 	ifstream file ( filename ); 
 	string value;
 	string s;
@@ -47,4 +47,27 @@ float manhattanDistance(vector<float> v1, vector<float> v2) {
 		result += abs(v1[i] - v2[i]);
 	}
 	return result;
+}
+
+void makeSet(vector<int> &set) {
+	for (int i = 0; i < set.size(); i++)
+		set[i] = i;
+}
+
+int find(vector<int> &set, int a) {
+	if (set[a] == a)
+		return a;
+	set[a] = find(set, a);
+	return set[a];
+}
+
+void join(vector<int> &set, int a, int b) {
+	int parentA = find(set, a);
+	int parentB = find(set, b);
+
+	// Make sure that the biggest number is the representative
+	if (parentB > parentA)
+		set[parentA] = parentB;
+	else
+		set[parentB] = parentA;
 }

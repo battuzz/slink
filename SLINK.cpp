@@ -41,6 +41,13 @@ void clusterize(vector< vector<float> > data, vector< vector<float> > &linkageMa
 		}
 	}
 
+	for (int i = 0; i < n; i++) {
+		cout << "index " << i << endl;
+		cout << "lambda " << lambdas[i] << endl;
+		cout << "pie " << pies[i] << endl;
+		cout << "------" << endl;
+	}
+
 	fromPointerReprToLinkageMatrix(lambdas, pies, linkageMatrix);	
 }
 
