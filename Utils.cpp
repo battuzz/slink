@@ -13,7 +13,7 @@ void read_csv(vector< vector<float> > &result, string filename, char sep) {
 	result.clear();
 
 	while ( file.good() ) {
-		vector<float> linevalue(10);
+		vector<float> linevalue(0);
 		getline ( file, value, '\n' ); 
 
 		stringstream line(value);
@@ -39,4 +39,12 @@ float toFloat( string myString ) {
     float f;
     iss >> f;
     return f;
+}
+
+float manhattanDistance(vector<float> v1, vector<float> v2) {
+	float result = 0;
+	for (int i = 0; i < v1.size(); i++) {
+		result += abs(v1[i] - v2[i]);
+	}
+	return result;
 }
