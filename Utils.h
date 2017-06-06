@@ -5,7 +5,11 @@
 
 using namespace std;
 
-void read_csv(vector< vector<float> > &result, string filename);
-void read_csv(vector< vector<float> > &result, string filename, char sep);
+void readCsv(vector< vector<float> > &result, string filename);
+void readCsv(vector< vector<float> > &result, string filename, char sep);
 bool isFloat( string myString );
 float toFloat( string myString );
+
+void makeSet(vector<int> &set);
+int find(vector<int> &set, int a);
+void join(vector<int> &set, int a, int b);
