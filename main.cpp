@@ -19,5 +19,6 @@ int main(int argc, char* argv[]) {
 		linkageMatrix.push_back(v);
 	}
 
-	clusterize(data, linkageMatrix, manhattanDistance);
+	SLINK slink;
+	slink.clusterize(data, linkageMatrix, manhattanDistance);
 }

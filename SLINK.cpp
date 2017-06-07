@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void clusterize(vector< vector<float> > data, vector< vector<float> > &linkageMatrix, distance_func d) {
+void SLINK::clusterize(const vector<vector<float>> &data, vector<vector<float>> &linkageMatrix, distance_func d) {
 	int n = data.size();
 
 	vector<float> lambdas(n);
@@ -51,6 +51,6 @@ void clusterize(vector< vector<float> > data, vector< vector<float> > &linkageMa
 	fromPointerReprToLinkageMatrix(lambdas, pies, linkageMatrix);	
 }
 
-void fromPointerReprToLinkageMatrix(vector<float> lambdas, vector<float> pies, vector< vector<float> > &linkageMatrix) {
+void SLINK::fromPointerReprToLinkageMatrix(vector<float> lambdas, vector<float> pies, vector< vector<float> > &linkageMatrix) {
 
 }

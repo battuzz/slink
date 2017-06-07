@@ -1,5 +1,5 @@
-#include "SLINK.h"
+#include "SingleLinkage.h"
 
-void do_something2() {
-	cout << "hey!" << endl;
+void SingleLinkage::clusterize(const vector<vector<float>> &data, vector< vector<float> > &linkageMatrix, distance_func d) {
+	cout << "Hello world" << endl;
 }

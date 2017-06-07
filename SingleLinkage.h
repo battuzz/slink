@@ -1,5 +1,11 @@
 #include <iostream>
 
+#include "Utils.h"
+#include "clusterize.h"
+
 using namespace std;
 
-void do_something2();
+class SingleLinkage : public Clusterize {
+public:
+	void clusterize(const vector<vector<float>> &data, vector< vector<float>> &linkageMatrix, distance_func d) override;
+};
