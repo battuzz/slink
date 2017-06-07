@@ -11,18 +11,23 @@ void readCsv(vector< vector<float> > &result, string filename, char sep) {
 	string s;
 
 	result.clear();
-
 	while ( file.good() ) {
 		vector<float> linevalue(0);
 		getline ( file, value, '\n' ); 
 
-		stringstream line(value);
+		if (value.size() > 0) {
 
-		while (getline(line, s, sep))
-			if (isFloat(s))
-				linevalue.push_back(toFloat(s));
+			stringstream line(value);
 
-		result.push_back(linevalue);
+			while (getline(line, s, sep)){
+				if (isFloat(s)) {
+					linevalue.push_back(toFloat(s));
+				}
+			}
+
+
+			result.push_back(linevalue);
+		}
 	}
 }
 

@@ -1,37 +1,59 @@
 import sys
 import numpy as np
+import argparse
 
-def usage():
-	print("""Usage: {0} <ncluster> <dimensions> [cluster distance] [...clusters size...]
-Examples: 
-python {0} 5 2
-   creates a dataset with 5 cluster in 2d.
-python {0} 3 2 1 1 1
-   creates a dataset with 3 clusters in 2d, each with a unitary sparsity
-python {0} 3 4 2 5 5 5
-   creates a dataset with 3 clusters in 4d. The 3 clusters have distance 2 and have a sparsity 5 each
-""".format(sys.argv[0]))
 
-def parse_args():
-	if len(sys.argv < 3):
-		usage()
-		return False
+def build_parser():
+	parser = argparse.ArgumentParser(description="Process generator parameters")
+	parser.add_argument('N', help="Number of points to generate", type=int)
+	parser.add_argument('-D', '--dim', '-d', help="Number of dimensions", default=2, type=int, required=False)
+	parser.add_argument('--num-clusters', help="Number of clusters", default=2, type=int, required=False)
+	parser.add_argument('--cluster-distance', help="Distance between clusters", type=float, required=False, default=1.0)
+	parser.add_argument('--cluster-size', help="A series of N floats describing the size of each cluster", required=False, default=None, nargs='*', type=float)
+	parser.add_argument('--random-state', help="Set the random state", default=-1, type=int)
+	parser.add_argument('-o', '--output', help="Output file name", default="output.csv", required=False)
 
-	N = sys.argv[1]
-	D = sys.argv[2]
+	return parser
 
-	if len(sys.argv) > 2 + N:
-		cluster_distance = sys.argv[3]
-	else:
-		cluster_distance = 1
-	sparsities = sys.argv[-N:]
+def generate_dataset(N, dim, num_clusters, cluster_size, cluster_distance, random_state):
+	points = []
+
+	if random_state != -1:
+		np.random.seed(random_state)
+
+	cluster_centers = np.random.rand(num_clusters, dim) * cluster_distance
+	for point in range(N):
+		# Randomly choose a cluster
+		cluster = np.random.randint(0, num_clusters)
+		points.append(np.random.rand(dim) * cluster_size[cluster] + cluster_centers[cluster])
+
+	return points
+
+def write_output(data, filename):
+	with open(filename, 'w') as f:
+		for line in data:
+			f.write(','.join(map(str,line)) + '\n')
 
 def main():
-	if len(sys.argv) < 2:
-		usage()
-		return None
+	parser = build_parser()
+	arguments = parser.parse_args()
 
-	N, D, cluster_distance, sparsities = parse_args()
+	N = arguments.N
+	dim = arguments.dim
+	num_clusters = arguments.num_clusters
+	cluster_size = arguments.cluster_size
+	cluster_distance = arguments.cluster_distance
+	random_state = arguments.random_state
+	filename = arguments.output
+
+	if cluster_size is None:
+		cluster_size = [1.0] * num_clusters
+	elif len(cluster_size) != num_clusters:
+		parser.print_usage()
+		sys.exit(0)
+
+	data = generate_dataset(N, dim, num_clusters, cluster_size, cluster_distance, random_state)
+	write_output(data, filename)
 
 
 
