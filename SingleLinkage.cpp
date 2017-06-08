@@ -7,6 +7,10 @@ void SingleLinkage::clusterize(const vector<vector<float>> &data, vector<vector<
 	vector<int> unionFind(2 * data.size());
 	makeSet(unionFind, 2 * data.size());
 
+	vector<int> C(2*data.size());
+	for (int i = 0; i < data.size(); i++)
+		C[i] = 1;
+
 
 	computeDissimilarityMatrix(D, data, dist);
 
@@ -33,7 +37,9 @@ void SingleLinkage::clusterize(const vector<vector<float>> &data, vector<vector<
 		int joined = min(mini, minj);
 		int joiner = max(mini, minj);
 
-		linkageMatrix.push_back(vector<float> {(float)find(unionFind, mini), (float)find(unionFind,minj), D[mini][minj], 1});
+		C[data.size() + it] = C[find(unionFind, joined)] + C[find(unionFind, joiner)];
+
+		linkageMatrix.push_back(vector<float> {(float)find(unionFind, mini), (float)find(unionFind,minj), D[mini][minj], (float)C[data.size() + it]});
 
 		join(unionFind, joined, data.size() + it);
 		join(unionFind, joiner, data.size() + it);
