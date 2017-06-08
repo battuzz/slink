@@ -54,15 +54,16 @@ float manhattanDistance(vector<float> v1, vector<float> v2) {
 	return result;
 }
 
-void makeSet(vector<int> &set) {
-	for (int i = 0; i < set.size(); i++)
+void makeSet(vector<int> &set, int size) {
+	set.resize(size);
+	for (int i = 0; i < size; i++)
 		set[i] = i;
 }
 
 int find(vector<int> &set, int a) {
 	if (set[a] == a)
 		return a;
-	set[a] = find(set, a);
+	set[a] = find(set, set[a]);
 	return set[a];
 }
 

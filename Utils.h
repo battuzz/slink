@@ -14,6 +14,6 @@ float toFloat( string myString );
 typedef float (*distance_func)(vector<float>, vector<float>);
 float manhattanDistance(vector<float>, vector<float>);
 
-void makeSet(vector<int> &set);
+void makeSet(vector<int> &set, int size);
 int find(vector<int> &set, int a);
 void join(vector<int> &set, int a, int b);
