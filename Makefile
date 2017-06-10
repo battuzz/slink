@@ -15,6 +15,8 @@ CFLAGS := -std=c++14 -O2 # -Wall
 LIB := #-pthread -lmongoclient -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
 INC := -I include
 
+all: $(TARGET) single_linkage SLINK
+
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
 	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
@@ -22,6 +24,12 @@ $(TARGET): $(OBJECTS)
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
 	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
+
+single_linkage: $(OBJECTS)
+	$(CC) $(CFLAGS) $^ -o test/run_single_linkage.cpp $(INC) $(LIB) -o bin/run_single_linkage
+
+SLINK: $(OBJECTS)
+	$(CC) $(CFLAGS) $^ -o test/run_slink.cpp $(INC) $(LIB) -o bin/run_slink
 
 clean:
 	@echo " Cleaning..."; 
