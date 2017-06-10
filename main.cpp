@@ -22,5 +22,5 @@ int main(int argc, char* argv[]) {
 		cout << endl;
 	}
 
-	toCsv(linkageMatrix, "linkage_matrix.csv");
+	toCsv(linkageMatrix, argv[2]);
 }

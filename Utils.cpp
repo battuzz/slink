@@ -94,7 +94,7 @@ void toCsv(vector< vector<float> > &linkageMatrix, string filename) {
 		myfile << row[0] << ",";
 		myfile << row[1] << ",";
 		myfile << row[2] << ",";
-		myfile << row[3] << "," << endl;
+		myfile << row[3] << endl;
 	}
 
 	myfile.close();
