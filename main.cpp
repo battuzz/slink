@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 	// 	linkageMatrix.push_back(v);
 	// }
 
-	SingleLinkage slink;
+	SLINK slink;
 	slink.clusterize(data, linkageMatrix, manhattanDistance);
 	for (int i = 0; i < linkageMatrix.size(); i++) {
 		for (int j = 0; j < linkageMatrix[i].size(); j++)

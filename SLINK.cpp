@@ -41,16 +41,47 @@ void SLINK::clusterize(const vector<vector<float>> &data, vector<vector<float>> 
 		}
 	}
 
-	for (int i = 0; i < n; i++) {
-		cout << "index " << i << endl;
-		cout << "lambda " << lambdas[i] << endl;
-		cout << "pie " << pies[i] << endl;
-		cout << "------" << endl;
-	}
-
 	fromPointerReprToLinkageMatrix(lambdas, pies, linkageMatrix);	
 }
 
 void SLINK::fromPointerReprToLinkageMatrix(vector<float> lambdas, vector<float> pies, vector< vector<float> > &linkageMatrix) {
+	int n = lambdas.size();
 
+	vector<int> unionFind;
+	makeSet(unionFind, n*2);
+
+	vector<index_value> ivVector;
+	for (int i = 0; i < n; i++) {
+		index_value iv = {
+			i,
+			lambdas[i]
+		};
+		ivVector.push_back(iv);
+	}
+
+	sort(ivVector.begin(), ivVector.end(), [](const index_value &a, const index_value &b) -> bool { 
+	    return a.value < b.value; 
+	});
+
+	for (int i = 0; i < n - 1; i++) {
+		int index = ivVector[i].index;
+		float lambda = lambdas[index];
+		int pie = pies[index];
+
+		int reprIndex = find(unionFind, index);
+		int dimReprIndex = 1;
+		if (reprIndex >= n) {
+			dimReprIndex = linkageMatrix[reprIndex - n][3];
+		} 
+		int reprPie = find(unionFind, pie);
+		int dimReprPie = 1;
+		if (reprPie >= n) {
+			dimReprPie = linkageMatrix[reprPie - n][3];
+		} 
+
+		linkageMatrix.push_back(vector<float> {(float)reprIndex, (float)reprPie, lambda, (float)(dimReprIndex + dimReprPie)});
+
+		join(unionFind, index, n + i);
+		join(unionFind, pie, n + i);
+	}
 }

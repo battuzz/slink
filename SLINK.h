@@ -2,11 +2,17 @@
 #include <limits>
 #include <iostream>
 #include <cmath> 
+#include <algorithm> 
 
 #include "Utils.h"
 #include "clusterize.h"
 
 using namespace std;
+
+struct index_value {
+	int index;
+	float value;
+};
 
 class SLINK : public Clusterize {
 public:
@@ -14,6 +20,3 @@ public:
 
 	void fromPointerReprToLinkageMatrix(vector<float> lambdas, vector<float> pies, vector< vector<float> > &linkageMatrix);
 };
-
-//void clusterize(const vector<vector<float>> &data, vector< vector<float> > &linkageMatrix, distance_func);
-//void fromPointerReprToLinkageMatrix(vector<float> lambdas, vector<float> pies, vector< vector<float> > &linkageMatrix);
