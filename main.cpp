@@ -14,11 +14,6 @@ int main(int argc, char* argv[]) {
 	vector< vector<float> > linkageMatrix; // 2n * 4 matrix
 	int n = data.size();
 
-	// for (int i = 1; i <= 2*n; i++) {
-	// 	vector<float> v;
-	// 	linkageMatrix.push_back(v);
-	// }
-
 	SLINK slink;
 	slink.clusterize(data, linkageMatrix, manhattanDistance);
 	for (int i = 0; i < linkageMatrix.size(); i++) {
@@ -26,4 +21,6 @@ int main(int argc, char* argv[]) {
 			cout << linkageMatrix[i][j] << " ";
 		cout << endl;
 	}
+
+	toCsv(linkageMatrix, "linkage_matrix.csv");
 }

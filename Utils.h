@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath> 
+#include <iostream>
 
 using namespace std;
 
@@ -17,3 +18,5 @@ float manhattanDistance(vector<float>, vector<float>);
 void makeSet(vector<int> &set, int size);
 int find(vector<int> &set, int a);
 void join(vector<int> &set, int a, int b);
+
+void toCsv(vector< vector<float> > &linkageMatrix, string filename);

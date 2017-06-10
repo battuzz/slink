@@ -77,3 +77,25 @@ void join(vector<int> &set, int a, int b) {
 	else
 		set[parentB] = parentA;
 }
+
+void toCsv(vector< vector<float> > &linkageMatrix, string filename) {
+	// Create file
+	ofstream myfile;
+	myfile.open (filename);
+
+	// Write column names
+	myfile << "Repr_1,";
+	myfile << "Repr_2,";
+	myfile << "Lambda,";
+	myfile << "Size" << endl;
+
+	// Write data
+	for (auto row : linkageMatrix) {
+		myfile << row[0] << ",";
+		myfile << row[1] << ",";
+		myfile << row[2] << ",";
+		myfile << row[3] << "," << endl;
+	}
+
+	myfile.close();
+}
