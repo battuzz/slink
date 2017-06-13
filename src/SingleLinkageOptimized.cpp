@@ -3,6 +3,8 @@
 void computeDissimilarityVector(vector<float> &D, const vector<vector<float>> &data, distance_func dist);
 
 void SingleLinkageOptimized::clusterize(const vector<vector<float>> &data, vector<vector<float>> &linkageMatrix, distance_func dist) {
+	clock_t start = clock();
+
 	int N = (int)data.size();
 	vector<float> D;					// Dissimilarity matrix
 
@@ -15,6 +17,12 @@ void SingleLinkageOptimized::clusterize(const vector<vector<float>> &data, vecto
 		C[i] = 1;
 
 	computeDissimilarityVector(D, data, dist);
+
+	clock_t end  = clock() ;
+	float time1 = (float) (end - start) / CLOCKS_PER_SEC;
+	printf("naive_optimized,%f,dissimilarity_matrix_build_time,%d,%d\n", time1, data.size(), data[0].size());
+
+	start = clock();
 
 	RMQ rmq(N*N, D);
 
@@ -67,6 +75,11 @@ void SingleLinkageOptimized::clusterize(const vector<vector<float>> &data, vecto
 			rmq.update(j*N + joined, numeric_limits<float>::max());
 		}
 	}
+
+	end  = clock() ;
+	float time2 = (float) (end - start) / CLOCKS_PER_SEC;
+	printf("naive_optimized,%f,linkage_matrix_build_time,%d,%d\n", time2, data.size(), data[0].size());
+	printf("naive_optimized,%f,total_time,%d,%d\n", time1 + time2, data.size(), data[0].size());
 }
 
 void computeDissimilarityVector(vector<float> &D, const vector<vector<float>> &data, distance_func dist) {

@@ -3,9 +3,9 @@ from subprocess import call
 
 file = open("test_config", "r") 
 line1 = file.readline()
-n_list = list(map(int, line1.split('\n')[0].split("=")[1].split(",")))
+n_list = list(map(int, line1.strip().split("=")[1].split(",")))
 line2 = file.readline()
-dim_list = list(map(int, line2.split('\n')[0].split("=")[1].split(",")))
+dim_list = list(map(int, line2.strip().split("=")[1].split(",")))
 
 for n in n_list:
 	for dim in dim_list:
