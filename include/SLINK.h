@@ -2,7 +2,8 @@
 #include <limits>
 #include <iostream>
 #include <cmath> 
-#include <algorithm> 
+#include <algorithm>
+#include <ctime>
 
 #include "Utils.h"
 #include "clusterize.h"

@@ -31,11 +31,11 @@
 *.out
 *.app
 
-# CSV
-*.csv
-
 # DS_Store
 .DS_Store
+
+# CSV
+*.csv
 
 build
 bin/*

@@ -26,10 +26,10 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 single_linkage: $(OBJECTS)
-	$(CC) $(CFLAGS) $^ -o test/run_single_linkage.cpp $(INC) $(LIB) -o bin/run_single_linkage
+	$(CC) $(CFLAGS) src/SingleLinkage.cpp src/SLINK.cpp src/Utils.cpp test/run_single_linkage.cpp $(INC) $(LIB) -o bin/run_single_linkage
 
 SLINK: $(OBJECTS)
-	$(CC) $(CFLAGS) $^ -o test/run_slink.cpp $(INC) $(LIB) -o bin/run_slink
+	$(CC) $(CFLAGS) src/SingleLinkage.cpp src/SLINK.cpp src/Utils.cpp test/run_slink.cpp $(INC) $(LIB) -o bin/run_slink
 
 clean:
 	@echo " Cleaning..."; 
