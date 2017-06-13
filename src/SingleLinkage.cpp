@@ -1,6 +1,8 @@
 #include "SingleLinkage.h"
 
 void SingleLinkage::clusterize(const vector<vector<float>> &data, vector<vector<float>> &linkageMatrix, distance_func dist) {
+	clock_t start = clock();
+
 	vector<vector<float>> D(data.size());		// Dissimilarity matrix
 	vector<bool> visited(data.size());			// Store whether a point is already been used or not
 	
@@ -13,6 +15,12 @@ void SingleLinkage::clusterize(const vector<vector<float>> &data, vector<vector<
 
 
 	computeDissimilarityMatrix(D, data, dist);
+
+	clock_t end  = clock() ;
+	float time1 = (float) (end - start) / CLOCKS_PER_SEC;
+	printf("naive,%f,dissimilarity_matrix_build_time,%d,%d\n", time1, data.size(), data[0].size());
+
+	start = clock();
 
 	for (int it = 0; it < data.size() - 1; it++) {
 		// For each point
@@ -55,9 +63,12 @@ void SingleLinkage::clusterize(const vector<vector<float>> &data, vector<vector<
 				D[i][joiner] = min(D[i][joiner], D[i][joined]);
 			else
 				D[i][joiner] = min(D[i][joiner], D[joined][i]);
-
-		
 	}
+
+	end  = clock() ;
+	float time2 = (float) (end - start) / CLOCKS_PER_SEC;
+	printf("naive,%f,linkage_matrix_build_time,%d,%d\n", time2, data.size(), data[0].size());
+	printf("naive,%f,total_time,%d,%d\n", time1 + time2, data.size(), data[0].size());
 }
 
 void SingleLinkage::computeDissimilarityMatrix(vector<vector<float>> &D, const vector<vector<float>> &data, distance_func dist) {

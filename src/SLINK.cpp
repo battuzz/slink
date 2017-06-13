@@ -3,6 +3,8 @@
 using namespace std;
 
 void SLINK::clusterize(const vector<vector<float>> &data, vector<vector<float>> &linkageMatrix, distance_func d) {
+	clock_t start = clock();
+
 	int n = data.size();
 
 	vector<float> lambdas(n);
@@ -41,7 +43,18 @@ void SLINK::clusterize(const vector<vector<float>> &data, vector<vector<float>> 
 		}
 	}
 
-	fromPointerReprToLinkageMatrix(lambdas, pies, linkageMatrix);	
+	clock_t end  = clock() ;
+	float time1 = (float) (end - start) / CLOCKS_PER_SEC;
+	printf("slink,%f,pointer_representation_build_time,%d,%d\n", time1, n, data[0].size());
+
+	start = clock();
+
+	fromPointerReprToLinkageMatrix(lambdas, pies, linkageMatrix);
+
+	end  = clock() ;
+	float time2 = (float) (end - start) / CLOCKS_PER_SEC;
+	printf("slink,%f,linkage_matrix_build_time,%d,%d\n", time2, n, data[0].size());
+	printf("slink,%f,total_time,%d,%d\n", time1 + time2, n, data[0].size());
 }
 
 void SLINK::fromPointerReprToLinkageMatrix(vector<float> lambdas, vector<float> pies, vector< vector<float> > &linkageMatrix) {

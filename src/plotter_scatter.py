@@ -13,8 +13,8 @@ plt.clf()
 
 plt.scatter(dataset[0], dataset[1], s=10, cmap=plt.cm.Paired)
 
-for i in range(len(dataset)):
-	plt.annotate(str(i), (dataset.loc[i,0], dataset.loc[i,1]))
+#for i in range(len(dataset)):
+#	plt.annotate(str(i), (dataset.loc[i,0], dataset.loc[i,1]))
 
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
