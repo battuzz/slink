@@ -99,3 +99,78 @@ void toCsv(vector< vector<float> > &linkageMatrix, string filename) {
 
 	myfile.close();
 }
+
+RMQ::RMQ(int size, const vector<float> &initialValues) {
+	n = size;
+	t.resize(2 * n);
+	idx.resize(2 * n);
+
+	for (int i = 0; i < n; i++) {
+		t[n + i] = initialValues[i];
+		idx[n + i] = i;
+	}
+	this->build();
+}
+
+void RMQ::build() {
+	for (int i = n - 1; i > 0; --i) {
+		if (t[i<<1] < t[i<<1|1]) {
+			t[i] = t[i<<1];
+			idx[i] = idx[i<<1];
+		}
+		else {
+			t[i] = t[i<<1|1];
+			idx[i] = idx[i<<1|1];
+		}
+	//t[i] = min(t[i<<1], t[i<<1|1]);
+	}
+}
+
+void RMQ::update(int p, float value) {  // set value at position p
+	p += n;
+	t[p] = value;
+
+	for (; p > 1; p >>= 1) {
+		if (t[p] < t[p^1]) {
+			t[p>>1] = t[p];
+			idx[p>>1] = idx[p];
+		}
+		else {
+			t[p>>1] = t[p^1];
+			idx[p>>1] = idx[p^1];
+		}
+		// t[p>>1] = min(t[p], t[p^1]);
+	}
+}
+float RMQ::getMin(int &index) {
+	index = idx[1];
+	return t[1];
+}
+
+float RMQ::query(int l, int r, int &index) {  // sum on interval [l, r)
+	float res = 0;
+
+	for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
+		if (l&1) {
+			if (t[l] < res) {
+				index = idx[l];
+				res = t[l];
+			}
+			l++;
+			// res = min( res, t[l++] );
+		}
+		if (r&1) {
+			r--;
+			if (t[r] < res) {
+				res = t[r];
+				index = idx[r];
+			}
+			// res = min( res, t[--r] );
+		}
+	}
+	return res;
+}
+
+float RMQ::get(int p) {
+	return t[n + p];
+}

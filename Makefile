@@ -9,13 +9,13 @@ BUILDDIR := build
 TARGET := bin/slink
  
 SRCEXT := cpp
-SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -std=c++14 -O2 # -Wall
 LIB := #-pthread -lmongoclient -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
 INC := -I include
 
-all: $(TARGET) single_linkage SLINK
+all: $(TARGET) single_linkage SLINK single_linkage_optimized
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
@@ -25,11 +25,14 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
 	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-single_linkage: $(OBJECTS)
-	$(CC) $(CFLAGS) src/SingleLinkage.cpp src/SLINK.cpp src/Utils.cpp test/run_single_linkage.cpp $(INC) $(LIB) -o bin/run_single_linkage
+single_linkage: build/Utils.o build/SingleLinkage.o
+	$(CC) $(CFLAGS) build/Utils.o build/SingleLinkage.o test/run_single_linkage.cpp $(INC) $(LIB) -o bin/run_single_linkage
 
-SLINK: $(OBJECTS)
-	$(CC) $(CFLAGS) src/SingleLinkage.cpp src/SLINK.cpp src/Utils.cpp test/run_slink.cpp $(INC) $(LIB) -o bin/run_slink
+SLINK: build/Utils.o build/SLINK.o
+	$(CC) $(CFLAGS) build/Utils.o build/SLINK.o test/run_slink.cpp $(INC) $(LIB) -o bin/run_slink
+
+single_linkage_optimized: build/Utils.o build/SingleLinkageOptimized.o
+	$(CC) $(CFLAGS) build/Utils.o build/SingleLinkageOptimized.o test/run_single_linkage_optimized.cpp $(INC) $(LIB) -o bin/run_single_linkage_optimized
 
 clean:
 	@echo " Cleaning..."; 
