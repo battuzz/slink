@@ -1,7 +1,11 @@
+/*
+	SLINK implementation from Sibson paper.
+*/
+
 #include <vector>
 #include <limits>
 #include <iostream>
-#include <cmath> 
+#include <cmath>
 #include <algorithm>
 #include <ctime>
 

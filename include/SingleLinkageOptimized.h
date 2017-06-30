@@ -1,3 +1,7 @@
+/*
+	Optimized naive method, using Segment Trees
+*/
+
 #include <iostream>
 #include <limits>
 #include <list>

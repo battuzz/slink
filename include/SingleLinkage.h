@@ -1,3 +1,7 @@
+/*
+	Naive implementation
+*/
+
 #include <iostream>
 #include <limits>
 #include <ctime>

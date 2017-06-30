@@ -5,10 +5,11 @@ void SingleLinkage::clusterize(const vector<vector<float>> &data, vector<vector<
 
 	vector<vector<float>> D(data.size());		// Dissimilarity matrix
 	vector<bool> visited(data.size());			// Store whether a point is already been used or not
-	
+
 	vector<int> unionFind(2 * data.size());
 	makeSet(unionFind, 2 * data.size());
 
+	/* C will count the number of points in each sub-cluster to compute linkage matrix */
 	vector<int> C(2*data.size());
 	for (int i = 0; i < data.size(); i++)
 		C[i] = 1;
@@ -28,6 +29,7 @@ void SingleLinkage::clusterize(const vector<vector<float>> &data, vector<vector<
 		int minj = 0;
 		float mindist = numeric_limits<float>::infinity();
 
+		// Search for the pair of points with min distance to join
 		for (int i = 0; i < data.size(); i++) {
 			if (!visited[i]) {
 				for (int j = i+1; j < data.size(); j++)
@@ -45,8 +47,10 @@ void SingleLinkage::clusterize(const vector<vector<float>> &data, vector<vector<
 		int joined = min(mini, minj);
 		int joiner = max(mini, minj);
 
+		// Update the count in the new cluster as the sum of the two joined clusters
 		C[data.size() + it] = C[find(unionFind, joined)] + C[find(unionFind, joiner)];
 
+		// Add new row to linkage matrix
 		linkageMatrix.push_back(vector<float> {(float)find(unionFind, mini), (float)find(unionFind,minj), D[mini][minj], (float)C[data.size() + it]});
 
 		join(unionFind, joined, data.size() + it);

@@ -67,7 +67,7 @@ void SingleLinkageOptimized::clusterize(const vector<vector<float>> &data, vecto
 		}
 
 
-		// Erase joined column and row
+		// Erase joined column and row by setting them to infinity
 		for (int j = 0; j < joined; j++) {
 			rmq.update(joined*N + j, numeric_limits<float>::max());
 		}
@@ -82,6 +82,11 @@ void SingleLinkageOptimized::clusterize(const vector<vector<float>> &data, vecto
 	printf("naive_optimized,%f,total_time,%d,%d\n", time1 + time2, data.size(), data[0].size());
 }
 
+
+/*
+	This is like computeDissimilarityMatrix but here the matrix is linearized in one vector
+	to simplify the range minimum query
+*/
 void computeDissimilarityVector(vector<float> &D, const vector<vector<float>> &data, distance_func dist) {
 	int N = (int) data.size();
 	D.clear();

@@ -1,3 +1,7 @@
+/*
+	This is an abstract class that will implement one of the clustering algorithm
+*/
+
 #include <vector>
 #include "Utils.h"
 

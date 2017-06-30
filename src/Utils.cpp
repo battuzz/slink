@@ -6,14 +6,14 @@ void readCsv(vector< vector<float> > &result, string filename) {
 
 // Reads the csv in filename and stores the values in result matrix
 void readCsv(vector< vector<float> > &result, string filename, char sep) {
-	ifstream file ( filename ); 
+	ifstream file ( filename );
 	string value;
 	string s;
 
 	result.clear();
 	while ( file.good() ) {
 		vector<float> linevalue(0);
-		getline ( file, value, '\n' ); 
+		getline ( file, value, '\n' );
 
 		if (value.size() > 0) {
 
@@ -36,7 +36,7 @@ bool isFloat( string myString ) {
     std::istringstream iss(myString);
     float f;
     iss >> f;
-    return !iss.fail(); 
+    return !iss.fail();
 }
 
 float toFloat( string myString ) {
@@ -112,13 +112,16 @@ RMQ::RMQ(int size, const vector<float> &initialValues) {
 	this->build();
 }
 
+/*
+	Build the segment tree parent nodes to be the minimum of both children.
+*/
 void RMQ::build() {
 	for (int i = n - 1; i > 0; --i) {
-		if (t[i<<1] < t[i<<1|1]) {
+		if (t[i<<1] < t[i<<1|1]) { // The left child is minimum
 			t[i] = t[i<<1];
 			idx[i] = idx[i<<1];
 		}
-		else {
+		else {			// The right child is minimum
 			t[i] = t[i<<1|1];
 			idx[i] = idx[i<<1|1];
 		}
